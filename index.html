@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Bibliotecas para la descarga: HTML a Imagen y a PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -27,11 +31,44 @@
                 height: 350px;
             }
         }
+        /* Estilos para el contenedor flotante de descarga */
+        .download-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        /* Estilo para el indicador de carga */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+        }
+        .loading-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body class="bg-gray-100" style="background-color: #005f73;">
 
-    <div class="container mx-auto p-4 md:p-8">
+    <!-- Contenedor Principal (Todo el contenido a capturar) -->
+    <div id="infographic-content" class="container mx-auto p-4 md:p-8">
 
         <header class="text-center text-white py-12">
             <h1 class="text-4xl md:text-6xl font-black uppercase tracking-wide">El Costo Oculto</h1>
@@ -157,6 +194,21 @@
             <p class="mt-4 text-xl font-black uppercase tracking-wider" style="color: #e9d8a6;">Elige Software Legal.</p>
         </footer>
 
+    </div>
+    
+    <!-- Contenedor de Carga -->
+    <div id="loading-overlay" class="loading-overlay">
+        Procesando descarga... Por favor espere.
+    </div>
+
+    <!-- Contenedor Flotante de Botones de Descarga -->
+    <div class="download-container">
+        <button onclick="downloadAsImage()" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            Descargar como PNG
+        </button>
+        <button onclick="downloadAsPDF()" class="bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            Descargar como PDF
+        </button>
     </div>
 
     <script>
@@ -367,6 +419,61 @@
             });
 
         });
+
+        const showLoading = (show) => {
+            document.getElementById('loading-overlay').classList.toggle('visible', show);
+        };
+
+        const captureInfographic = async (format) => {
+            showLoading(true);
+            const input = document.getElementById('infographic-content');
+            
+            // Oculta los botones de descarga temporalmente para que no aparezcan en la captura
+            const downloadContainer = document.querySelector('.download-container');
+            downloadContainer.style.display = 'none';
+
+            // html2canvas captura el contenido del DOM
+            const canvas = await html2canvas(input, {
+                scale: 2, 
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#005f73',
+                windowWidth: input.scrollWidth,
+                windowHeight: input.scrollHeight
+            });
+            
+            // Vuelve a mostrar los botones
+            downloadContainer.style.display = 'flex';
+            showLoading(false);
+
+            if (format === 'image') {
+                const image = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = 'infografia-software-legal.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else if (format === 'pdf') {
+                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                const pdf = new window.jspdf.jsPDF({
+                    orientation: 'portrait',
+                    unit: 'px',
+                    format: [canvas.width, canvas.height] 
+                });
+                
+                pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
+                pdf.save('infografia-software-legal.pdf');
+            }
+        };
+
+        function downloadAsImage() {
+            captureInfographic('image');
+        }
+
+        function downloadAsPDF() {
+            captureInfographic('pdf');
+        }
     </script>
 
 </body>
