@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaña de Concienciación: El Riesgo del Software Sin Licencia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100" style="background-color: #005f73;">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center text-white py-12">
+            <h1 class="text-4xl md:text-6xl font-black uppercase tracking-wide">El Costo Oculto</h1>
+            <p class="text-xl md:text-2xl font-light mt-2" style="color: #94d2bd;">del Software Sin Licencia</p>
+        </header>
+
+        <main>
+            <section id="intro" class="bg-white rounded-lg shadow-2xl p-6 md:p-8 mb-12 text-center md:col-span-2">
+                <h2 class="text-2xl font-bold mb-4" style="color: #005f73;">Un Problema Global con Consecuencias Locales</h2>
+                <p class="text-gray-700 max-w-4xl mx-auto">
+                    El uso de software sin licencia o "pirata" va más allá de una simple descarga ilegal. Representa una puerta de entrada a ciberataques, pérdidas económicas y graves responsabilidades legales. Para las organizaciones, y especialmente para el sector público como una alcaldía, las consecuencias pueden ser devastadoras, comprometiendo la seguridad de los datos de los ciudadanos y la integridad de los servicios públicos.
+                </p>
+            </section>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+
+                <div class="bg-white rounded-lg shadow-2xl p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-center mb-4" style="color: #0a9396;">El Panorama Mundial del Software</h3>
+                    <p class="text-center text-gray-600 mb-6">Un porcentaje alarmantemente alto del software instalado en computadoras a nivel mundial no cuenta con la licencia adecuada. Esto no solo representa pérdidas millonarias para la industria, sino que crea un ecosistema digital vulnerable.</p>
+                    <div class="chart-container mx-auto h-64 md:h-80">
+                        <canvas id="piracyRateChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-2xl p-6 md:p-8 flex flex-col justify-center items-center">
+                    <h3 class="text-xl font-bold text-center mb-4" style="color: #ca6702;">Pérdidas Económicas</h3>
+                     <p class="text-center text-gray-600 mb-6">El valor comercial del software sin licencia instalado anualmente se cuenta en miles de millones de dólares, afectando la innovación y el desarrollo de nuevas tecnologías.</p>
+                    <div class="text-center">
+                        <p class="text-6xl md:text-7xl font-black" style="color: #bb3e03;">$46.3</p>
+                        <p class="text-xl font-bold" style="color: #ae2012;">Mil Millones USD</p>
+                        <p class="text-gray-500 mt-2">Valor comercial global del software sin licencia.</p>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 bg-white rounded-lg shadow-2xl p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-center mb-2" style="color: #9b2226;">Los Peligros Ocultos del Software Pirata</h3>
+                    <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">La principal razón para evitar el software sin licencia es la seguridad. El software pirata es el vehículo preferido por los ciberdelincuentes para distribuir malware, robar información y tomar control de tus sistemas.</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <div class="chart-container mx-auto h-80 md:h-96">
+                                <canvas id="risksChart"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-center text-lg mb-4" style="color: #005f73;">La Cadena de Infección</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 rounded-full h-10 w-10 flex items-center justify-center font-bold text-white" style="background-color: #ee9b00;">1</div>
+                                    <p class="ml-4 text-gray-700"><strong class="text-black">Descarga Ilegal:</strong> Buscas y descargas software de una fuente no oficial (sitio web, torrent).</p>
+                                </div>
+                                <div class="h-8 border-l-2 border-dashed border-gray-300 ml-5"></div>
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 rounded-full h-10 w-10 flex items-center justify-center font-bold text-white" style="background-color: #ca6702;">2</div>
+                                    <p class="ml-4 text-gray-700"><strong class="text-black">Malware Oculto:</strong> El instalador contiene malware (virus, troyanos, spyware) que se instala silenciosamente.</p>
+                                </div>
+                                <div class="h-8 border-l-2 border-dashed border-gray-300 ml-5"></div>
+                                 <div class="flex items-center">
+                                    <div class="flex-shrink-0 rounded-full h-10 w-10 flex items-center justify-center font-bold text-white" style="background-color: #bb3e03;">3</div>
+                                    <p class="ml-4 text-gray-700"><strong class="text-black">Sistema Comprometido:</strong> Los atacantes obtienen acceso a tus archivos, contraseñas y datos personales.</p>
+                                </div>
+                                <div class="h-8 border-l-2 border-dashed border-gray-300 ml-5"></div>
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 rounded-full h-10 w-10 flex items-center justify-center font-bold text-white" style="background-color: #ae2012;">4</div>
+                                    <p class="ml-4 text-gray-700"><strong class="text-black">Consecuencias:</strong> Robo de identidad, fraude financiero, secuestro de datos (ransomware).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-2 bg-white rounded-lg shadow-2xl p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-center mb-2" style="color: #005f73;">Sector Público: Un Riesgo Crítico para la Ciudadanía</h3>
+                    <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">Cuando una entidad pública como una alcaldía utiliza software sin licencia, el riesgo se multiplica. No solo se arriesgan datos administrativos, sino la información sensible de miles de ciudadanos y la continuidad de servicios esenciales.</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                             <h4 class="font-bold text-center text-lg mb-4" style="color: #0a9396;">Áreas Críticas de Impacto en una Alcaldía</h4>
+                             <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start"><span class="text-2xl mr-2" style="color: #ae2012;">🛡️</span><strong>Seguridad Ciudadana:</strong> Compromete bases de datos de impuestos, registros civiles, y programas sociales.</li>
+                                <li class="flex items-start"><span class="text-2xl mr-2" style="color: #ae2012;">💸</span><strong>Finanzas Públicas:</strong> El costo de un ciberataque (multas y recuperación) se paga con dinero de los contribuyentes.</li>
+                                <li class="flex items-start"><span class="text-2xl mr-2" style="color: #ae2012;">🏛️</span><strong>Confianza Pública:</strong> Una brecha de seguridad erosiona la confianza de los ciudadanos en sus instituciones.</li>
+                                <li class="flex items-start"><span class="text-2xl mr-2" style="color: #ae2012;">⚖️</span><strong>Consecuencias Legales:</strong> Sanciones severas para la entidad y los funcionarios responsables por incumplimiento de leyes de derechos de autor y protección de datos.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="chart-container mx-auto h-80 md:h-96">
+                                <canvas id="publicSectorImpactChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 bg-white rounded-lg shadow-2xl p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-center mb-6" style="color: #0a9396;">El Camino Correcto: Beneficios del Software Legal</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="text-center p-4 border-t-4 rounded" style="border-color: #94d2bd;">
+                            <p class="text-4xl mb-2">✅</p>
+                            <h4 class="font-bold">Seguridad y Actualizaciones</h4>
+                            <p class="text-sm text-gray-600">Recibes parches de seguridad críticos que te protegen de las últimas amenazas.</p>
+                        </div>
+                        <div class="text-center p-4 border-t-4 rounded" style="border-color: #e9d8a6;">
+                            <p class="text-4xl mb-2">⚙️</p>
+                            <h4 class="font-bold">Soporte Técnico</h4>
+                            <p class="text-sm text-gray-600">Acceso a ayuda profesional para resolver cualquier problema o duda.</p>
+                        </div>
+                        <div class="text-center p-4 border-t-4 rounded" style="border-color: #ee9b00;">
+                            <p class="text-4xl mb-2">⚖️</p>
+                            <h4 class="font-bold">Cumplimiento Legal</h4>
+                            <p class="text-sm text-gray-600">Evitas multas millonarias y sanciones legales para ti y tu organización.</p>
+                        </div>
+                        <div class="text-center p-4 border-t-4 rounded" style="border-color: #ca6702;">
+                             <p class="text-4xl mb-2">💯</p>
+                            <h4 class="font-bold">Rendimiento y Confianza</h4>
+                            <p class="text-sm text-gray-600">El software funciona como debe, sin errores inesperados ni fallos de seguridad.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="text-center py-12 text-white">
+            <h2 class="text-2xl md:text-3xl font-bold">Toma la Decisión Inteligente</h2>
+            <p class="mt-2 text-lg font-light" style="color: #94d2bd;">Proteger tu información, tus finanzas y tu tranquilidad empieza con una elección simple. </p>
+            <p class="mt-4 text-xl font-black uppercase tracking-wider" style="color: #e9d8a6;">Elige Software Legal.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const tooltipTitleCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        const processLabels = (labels) => {
+            return labels.map(label => {
+                if (label.length > 16) {
+                    const words = label.split(' ');
+                    const lines = [];
+                    let currentLine = '';
+                    words.forEach(word => {
+                        if ((currentLine + word).length > 16) {
+                            lines.push(currentLine.trim());
+                            currentLine = word + ' ';
+                        } else {
+                            currentLine += word + ' ';
+                        }
+                    });
+                    lines.push(currentLine.trim());
+                    return lines;
+                }
+                return label;
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            var piracyRateCtx = document.getElementById('piracyRateChart').getContext('2d');
+            new Chart(piracyRateCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Software Sin Licencia', 'Software con Licencia'],
+                    datasets: [{
+                        label: 'Tasa de Uso',
+                        data: [37, 63],
+                        backgroundColor: [
+                            '#ae2012',
+                            '#0a9396'
+                        ],
+                        borderColor: '#ffffff',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        ...tooltipTitleCallback.plugins,
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Proporción Global de Software Instalado',
+                             font: {
+                                size: 16
+                            },
+                            padding: {
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            const riskLabels = ['Riesgo de Malware', 'Pérdida de Datos', 'Intrusión de Hackers', 'Consecuencias Legales', 'Rendimiento Deficiente'];
+            var risksCtx = document.getElementById('risksChart').getContext('2d');
+            new Chart(risksCtx, {
+                type: 'bar',
+                data: {
+                    labels: processLabels(riskLabels),
+                    datasets: [{
+                        label: 'Nivel de Preocupación de los Usuarios (%)',
+                        data: [68, 59, 64, 45, 40],
+                        backgroundColor: '#ca6702',
+                        borderColor: '#bb3e03',
+                        borderWidth: 2,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                             grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                             grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        ...tooltipTitleCallback.plugins,
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Principales Amenazas del Software Ilegal',
+                             font: {
+                                size: 16
+                            },
+                             padding: {
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            var publicSectorCtx = document.getElementById('publicSectorImpactChart').getContext('2d');
+            new Chart(publicSectorCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Pérdida de Fondos Públicos', 'Daño a la Reputación', ['Riesgo a la', 'Seguridad Nacional'], 'Pérdida de Datos Ciudadanos', 'Interrupción de Servicios'],
+                    datasets: [{
+                        label: 'Impacto en Sector Público (Alcaldía)',
+                        data: [9, 10, 8, 10, 9],
+                        fill: true,
+                        backgroundColor: 'rgba(174, 32, 18, 0.2)',
+                        borderColor: '#ae2012',
+                        pointBackgroundColor: '#ae2012',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#ae2012'
+                    },
+                    {
+                        label: 'Impacto en Empresa Privada',
+                        data: [8, 7, 3, 7, 6],
+                        fill: true,
+                        backgroundColor: 'rgba(10, 147, 150, 0.2)',
+                        borderColor: '#0a9396',
+                        pointBackgroundColor: '#0a9396',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#0a9396'
+                    }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: '#e2e8f0'
+                            },
+                            grid: {
+                                color: '#e2e8f0'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 11
+                                }
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(255, 255, 255, 0.75)',
+                                stepSize: 2
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    },
+                     plugins: {
+                        ...tooltipTitleCallback.plugins,
+                        title: {
+                            display: true,
+                            text: 'Comparativa de Impacto de un Ciberataque',
+                             font: {
+                                size: 16
+                            },
+                             padding: {
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>
