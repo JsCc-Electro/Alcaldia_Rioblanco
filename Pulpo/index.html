@@ -552,7 +552,7 @@
                 desc: "Distribución inteligente. El documento llega a la bandeja de entrada del funcionario correcto.",
                 tech: [
                     { name: "Motor", tool: "Reglas de Negocio", detail: "Si dice 'hueco' va a Infraestructura. Si dice 'predial' va a Hacienda." },
-                    { name: "Trazabilidad", tool: "    PostgreSQL", detail: "Registro inmutable de quién tiene el caso." }
+                    { name: "Traza", tool: "    PostgreSQL", detail: "Registro inmutable de quién tiene el caso." }
                 ],
                 flow: "Clasificación ➔ Consulta Organigrama ➔ Notificación al Secretario."
             },
@@ -561,7 +561,7 @@
                 icon: "✅",
                 desc: "Control humano final. La IA propone, el funcionario dispone y firma.",
                 tech: [
-                    { name: "Borrador", tool: "Generación de Texto", detail: "La IA redacta la respuesta preliminar." },
+                    { name: "Boceto", tool: "Generación de Texto", detail: "La IA redacta la respuesta preliminar." },
                     { name: "Firma", tool: "Certificado Digital", detail: "El funcionario firma electrónicamente para validez legal." }
                 ],
                 flow: "Revisión Humana ➔ Firma Electrónica ➔ Envío al Ciudadano."
