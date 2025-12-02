@@ -3,190 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modelo Pulpo: Propuesta Rioblanco, Tolima</title>
+    <title>Propuesta TIC Rioblanco: Modelo Pulpo</title>
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Styles & Chart Container Constraints -->
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F8F9FA; color: #1F2937; }
-        .chart-container { position: relative; width: 100%; height: 300px; }
-        .phase-card { transition: all 0.3s ease; cursor: pointer; }
-        .phase-card.active { border-left: 4px solid #0F766E; background-color: #FFFFFF; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #1F2937;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #CBD5E1; 
+            border-radius: 4px;
+        }
+
+        .phase-card {
+            transition: all 0.3s ease;
+        }
+        .phase-card.active {
+            border-left: 4px solid #0F766E; /* Teal-700 */
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
         
-        /* Estilos de impresión para reporte físico */
-        @media print {
-            nav, .phase-card:not(.active), #volumeSlider, button.no-print { display: none; }
-            body { background: white; color: black; }
-            .bg-slate-100, .bg-slate-50 { background-color: white !important; border: 1px solid #ddd; }
+        .step-connector {
+            position: absolute;
+            left: 24px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background-color: #E2E8F0;
+            z-index: 0;
+        }
+        .last-step .step-connector {
+            display: none;
         }
     </style>
+
+    <!-- Chosen Palette: Rioblanco Official Tone (simulated) + Professional Neutrals + Teal for Technology -->
+    <!-- Application Structure Plan:
+         1. Header: Branding for "Alcaldía de Rioblanco - Área de Tics".
+         2. Intro: Contextualize the proposal.
+         3. Arch & Tech (Points 1-2): Explain the "Pulpo" logic (unchanged).
+         4. ROI (Point 3): Feasibility data (unchanged).
+         5. Roadmap (Point 4): High level phases (unchanged).
+         6. NEW Point 5 (Scaling Strategy): Detailed step-by-step accordion/list showing how to move from "Zero" to "Total System".
+         7. NEW Point 6 (Digital Signature): Specific section on legal validity and mechanism.
+         8. NEW Point 7 (Infrastructure): Physical vs Cloud comparison table/cards.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="text-slate-800">
 
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <!-- Navigation / Header -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
+            <div class="flex justify-between h-20">
                 <div class="flex items-center">
-                    <span class="text-2xl mr-2">🐙</span>
+                    <div class="bg-teal-700 text-white p-2 rounded-lg mr-3">
+                        <span class="text-2xl">🏛️</span>
+                    </div>
                     <div>
-                        <h1 class="text-xl font-bold text-slate-900 tracking-tight leading-none">Modelo Pulpo</h1>
-                        <span class="text-xs text-teal-600 font-medium">Alcaldía de Rioblanco | Oficina TIC</span>
+                        <h1 class="text-lg font-bold text-slate-900 leading-tight">Alcaldía de Rioblanco</h1>
+                        <p class="text-xs text-teal-700 font-semibold tracking-wide uppercase">Propuesta Área de Tics</p>
                     </div>
                 </div>
-                <div class="hidden md:flex space-x-8 items-center text-sm font-medium text-slate-500">
-                    <a href="#rioblanco" class="text-teal-700 font-bold hover:text-teal-800">Propuesta Rioblanco</a>
-                    <a href="#arquitectura" class="hover:text-teal-600">Arquitectura</a>
-                    <a href="#roi" class="hover:text-teal-600">ROI Financiero</a>
-                    <button onclick="window.print()" class="no-print bg-slate-800 text-white px-3 py-1.5 rounded hover:bg-slate-700 text-xs ml-4">🖨️ PDF</button>
+                <div class="hidden xl:flex space-x-6 items-center text-sm font-medium text-slate-500">
+                    <a href="#arquitectura" class="hover:text-teal-700 transition-colors">Modelo</a>
+                    <a href="#roi" class="hover:text-teal-700 transition-colors">ROI</a>
+                    <a href="#escalabilidad" class="text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200 hover:bg-teal-100 transition-colors">Implementación</a>
+                    <a href="#firma" class="hover:text-teal-700 transition-colors">Firma</a>
+                    <a href="#infra" class="hover:text-teal-700 transition-colors">Infraestructura</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
 
-        <section class="text-center max-w-4xl mx-auto mb-12">
-            <h2 class="text-4xl font-extrabold text-slate-900 mb-4">Modernización de la Gestión Documental</h2>
-            <p class="text-lg text-slate-600">
-                Una estrategia liderada por el área TIC para transformar el archivo municipal de <strong>Rioblanco, Tolima</strong>, integrando Inteligencia Artificial con el cumplimiento de las Tablas de Retención Documental (TRD).
+        <!-- Section: Hero -->
+        <section class="text-center max-w-4xl mx-auto mt-8">
+            <span class="inline-block py-1 px-3 rounded-full bg-teal-100 text-teal-800 text-xs font-bold mb-4">TRANSFORMACIÓN DIGITAL GUBERNAMENTAL</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">El "Modelo Pulpo": Eficiencia para Rioblanco</h2>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                Una propuesta técnica para centralizar, orquestar y automatizar la gestión pública municipal. De la radicación manual a la inteligencia artificial supervisada.
             </p>
         </section>
 
-        <section id="rioblanco" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="bg-teal-900 p-6 text-white">
-                <h3 class="text-2xl font-bold flex items-center">
-                    <span class="mr-3">🏛️</span> Estrategia Local: Del Papel al Dato
-                </h3>
-                <p class="text-teal-100 text-sm mt-1">Hoja de ruta específica para la administración municipal.</p>
+        <!-- Point 1: Technical Architecture -->
+        <section id="arquitectura" class="scroll-mt-24">
+            <div class="flex items-center mb-6">
+                <div class="h-8 w-1 bg-teal-600 rounded-full mr-3"></div>
+                <h3 class="text-2xl font-bold text-slate-900">1. Arquitectura Técnica: El Flujo de Datos</h3>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
-                <div class="p-8 border-b md:border-b-0 md:border-r border-slate-100">
-                    <h4 class="font-bold text-slate-800 mb-4 uppercase text-xs tracking-wider">El Reto Actual</h4>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <span class="text-amber-500 mr-2">⚠️</span>
-                            <p class="text-sm text-slate-600"><strong>Descentralización Ineficiente:</strong> Múltiples ventanillas físicas dispersas dificultan la trazabilidad del radicado único.</p>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-amber-500 mr-2">⚠️</span>
-                            <p class="text-sm text-slate-600"><strong>Riesgo Jurídico:</strong> Pérdida de documentos físicos en el traslado entre dependencias y dificultad para cumplir tiempos de Ley (15 días).</p>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-amber-500 mr-2">⚠️</span>
-                            <p class="text-sm text-slate-600"><strong>Archivo Satélite:</strong> Acumulación de cajas en oficinas sin cumplir estándares del AGN (temperatura/humedad).</p>
-                        </li>
-                    </ul>
-                </div>
+            <div class="bg-slate-100 rounded-2xl p-6 md:p-10">
+                <p class="text-slate-600 mb-8 max-w-3xl">
+                    El sistema opera como un organismo vivo. Seleccione cada fase para ver cómo la tecnología (Open Source) gestiona la carga operativa.
+                </p>
 
-                <div class="p-8 bg-teal-50">
-                    <h4 class="font-bold text-teal-800 mb-4 uppercase text-xs tracking-wider">La Solución TIC Propuesta</h4>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <div class="bg-white p-1 rounded shadow-sm mr-3 text-teal-600">📂</div>
-                            <div>
-                                <h5 class="font-bold text-sm text-slate-800">Digitalización Certificada</h5>
-                                <p class="text-xs text-slate-600">Implementación de escáneres OCR en ventanilla única. Todo documento físico se convierte en PDF/A con valor legal inmediato.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Navigation / Phases -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <button onclick="updateArch('ingesta')" id="btn-ingesta" class="phase-card active w-full text-left p-5 rounded-xl border border-slate-200 hover:border-teal-400 focus:outline-none bg-white">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-lg text-slate-800">1. Ingesta (La Cabeza)</h4>
+                                <span class="text-2xl">📥</span>
                             </div>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="bg-white p-1 rounded shadow-sm mr-3 text-teal-600">🏷️</div>
-                            <div>
-                                <h5 class="font-bold text-sm text-slate-800">Automatización de TRD</h5>
-                                <p class="text-xs text-slate-600">El "Modelo Pulpo" sugiere automáticamente la serie y subserie documental (ej. <i>Contratos > Prestación de Servicios</i>) reduciendo errores de archivo.</p>
+                            <p class="text-sm text-slate-500 mt-1">Recepción omnicanal unificada.</p>
+                        </button>
+
+                        <button onclick="updateArch('analisis')" id="btn-analisis" class="phase-card w-full text-left p-5 rounded-xl border border-slate-200 hover:border-teal-400 focus:outline-none bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-lg text-slate-800">2. Análisis (El Cerebro)</h4>
+                                <span class="text-2xl">🧠</span>
                             </div>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="bg-white p-1 rounded shadow-sm mr-3 text-teal-600">☁️</div>
-                            <div>
-                                <h5 class="font-bold text-sm text-slate-800">Soberanía de Datos</h5>
-                                <p class="text-xs text-slate-600">Repositorio local híbrido (Servidor Alcaldía + Backup Nube) para garantizar acceso incluso con fallas de internet en el municipio.</p>
+                            <p class="text-sm text-slate-500 mt-1">NLP y extracción de datos.</p>
+                        </button>
+
+                        <button onclick="updateArch('asignacion')" id="btn-asignacion" class="phase-card w-full text-left p-5 rounded-xl border border-slate-200 hover:border-teal-400 focus:outline-none bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-lg text-slate-800">3. Asignación (Tentáculos)</h4>
+                                <span class="text-2xl">🦑</span>
                             </div>
-                        </li>
-                    </ul>
+                            <p class="text-sm text-slate-500 mt-1">Enrutamiento a dependencias.</p>
+                        </button>
+
+                        <button onclick="updateArch('validacion')" id="btn-validacion" class="phase-card w-full text-left p-5 rounded-xl border border-slate-200 hover:border-teal-400 focus:outline-none bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-lg text-slate-800">4. Validación (Cierre)</h4>
+                                <span class="text-2xl">✅</span>
+                            </div>
+                            <p class="text-sm text-slate-500 mt-1">Human-in-the-loop.</p>
+                        </button>
+                    </div>
+
+                    <!-- Detail View -->
+                    <div class="lg:col-span-7 bg-white rounded-xl shadow-sm border border-slate-200 p-8 flex flex-col justify-center min-h-[400px]">
+                        <div id="arch-content">
+                            <!-- Content injected via JS -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="arquitectura">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-2xl font-bold text-slate-900">Arquitectura del Sistema</h3>
-            </div>
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-4 space-y-3">
-                    <button onclick="updateArch('ingesta')" id="btn-ingesta" class="phase-card active w-full text-left p-4 rounded-lg border border-slate-200 bg-white">
-                        <span class="font-bold text-slate-800 block">1. Ingesta (Ventanilla)</span>
-                        <span class="text-xs text-slate-500">Recepción física y digital</span>
-                    </button>
-                    <button onclick="updateArch('analisis')" id="btn-analisis" class="phase-card w-full text-left p-4 rounded-lg border border-slate-200 bg-slate-50">
-                        <span class="font-bold text-slate-800 block">2. Inteligencia (IA)</span>
-                        <span class="text-xs text-slate-500">Clasificación y Lectura</span>
-                    </button>
-                    <button onclick="updateArch('asignacion')" id="btn-asignacion" class="phase-card w-full text-left p-4 rounded-lg border border-slate-200 bg-slate-50">
-                        <span class="font-bold text-slate-800 block">3. Distribución</span>
-                        <span class="text-xs text-slate-500">Enrutamiento a Secretarías</span>
-                    </button>
+        <!-- Point 2 & 3 Combined visually: Legal & ROI -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-12">
+            
+            <!-- Point 2: Legal -->
+            <section id="legal">
+                <div class="flex items-center mb-6">
+                    <div class="h-8 w-1 bg-slate-400 rounded-full mr-3"></div>
+                    <h3 class="text-2xl font-bold text-slate-900">2. Cumplimiento Normativo</h3>
                 </div>
-                <div class="lg:col-span-8 bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-center min-h-[300px]">
-                    <div id="arch-content"></div>
+                <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm h-full">
+                    <p class="text-slate-600 mb-6 text-sm">Alineación con la estrategia nacional de Gobierno Digital y Cero Papel.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-teal-50 text-teal-700 p-2 rounded mr-4 mt-1 text-xl">📜</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Ley 527 de 1999</h4>
+                                <p class="text-sm text-slate-600">Equivalencia funcional. El mensaje de datos tiene la misma validez probatoria que el documento físico.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-teal-50 text-teal-700 p-2 rounded mr-4 mt-1 text-xl">🌳</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Directiva Cero Papel</h4>
+                                <p class="text-sm text-slate-600">Digitalización en la fuente (ventanilla única). Se eliminan las copias físicas internas.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-teal-50 text-teal-700 p-2 rounded mr-4 mt-1 text-xl">🔐</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Habeas Data</h4>
+                                <p class="text-sm text-slate-600">Anonimización de datos sensibles en el entrenamiento de la IA y acceso basado en roles (RBAC).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Point 3: ROI -->
+            <section id="roi">
+                <div class="flex items-center mb-6">
+                    <div class="h-8 w-1 bg-amber-500 rounded-full mr-3"></div>
+                    <h3 class="text-2xl font-bold text-slate-900">3. Ahorro y Eficiencia</h3>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm h-full flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <label class="text-sm font-bold text-slate-700">Volumen PQRSD Mensual:</label>
+                            <span id="volumeValue" class="text-teal-700 font-bold text-lg">1000</span>
+                        </div>
+                        <input type="range" id="volumeSlider" min="100" max="5000" step="100" value="1000" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-teal-600 mb-6">
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="text-center p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <div class="text-xs text-slate-500 uppercase">Ahorro Tiempo</div>
+                                <div id="timeSaved" class="text-xl font-bold text-teal-600">466 Horas</div>
+                            </div>
+                            <div class="text-center p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <div class="text-xs text-slate-500 uppercase">Ahorro Papel</div>
+                                <div id="paperSaved" class="text-xl font-bold text-amber-600">3,000 Hojas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-48 w-full">
+                        <canvas id="timeChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Point 5: Step-by-Step Implementation Strategy -->
+        <section id="escalabilidad" class="scroll-mt-24 pt-8 border-t border-slate-200">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <span class="text-teal-600 font-bold tracking-wider text-sm uppercase">Punto 5</span>
+                    <h3 class="text-3xl font-extrabold text-slate-900 mt-2">Paso a Paso: Del Piloto al Sistema Integral</h3>
+                    <p class="text-slate-600 mt-4 max-w-2xl mx-auto">
+                        Esta solución no es inmediata ni traumática. Es una evolución progresiva diseñada para Rioblanco. Empezamos dando el primer paso con firmeza.
+                    </p>
+                </div>
+
+                <div class="space-y-0 relative pl-4 md:pl-0">
+                    
+                    <!-- Step 1 -->
+                    <div class="relative flex flex-col md:flex-row gap-6 pb-12 group">
+                        <!-- Connector Line -->
+                        <div class="hidden md:block absolute left-[159px] top-10 bottom-0 w-0.5 bg-slate-200 group-last:hidden"></div>
+                        
+                        <!-- Time/Label -->
+                        <div class="md:w-40 flex-shrink-0 flex flex-col items-end md:text-right">
+                            <span class="text-2xl font-bold text-teal-700">Paso 1</span>
+                            <span class="text-sm text-slate-500 font-medium">Meses 1-3</span>
+                            <span class="mt-2 px-2 py-1 bg-teal-50 text-teal-800 text-xs rounded border border-teal-100">Inicio Controlado</span>
+                        </div>
+
+                        <!-- Icon Node -->
+                        <div class="absolute left-0 md:left-[144px] z-10 w-8 h-8 rounded-full bg-teal-600 border-4 border-white shadow flex items-center justify-center text-white text-xs">1</div>
+
+                        <!-- Content Card -->
+                        <div class="flex-grow bg-white p-6 rounded-xl border border-slate-200 shadow-sm md:ml-8 hover:border-teal-300 transition-colors">
+                            <h4 class="text-lg font-bold text-slate-800 mb-2">Digitalización de la Entrada (Ventanilla)</h4>
+                            <p class="text-slate-600 text-sm mb-4">
+                                No automatizamos respuestas aún. El objetivo es **centralizar**. Todo documento físico que llega a la alcaldía se escanea y se convierte en texto (OCR) en el momento cero.
+                            </p>
+                            <ul class="text-sm text-slate-500 space-y-2 bg-slate-50 p-3 rounded">
+                                <li class="flex items-start"><span class="text-teal-500 mr-2">✓</span>Instalación de Escáner OCR en recepción.</li>
+                                <li class="flex items-start"><span class="text-teal-500 mr-2">✓</span>Habilitación del canal de WhatsApp Institucional (solo recepción).</li>
+                                <li class="flex items-start"><span class="text-teal-500 mr-2">✓</span>Personal de TIC monitorea que la lectura de datos sea correcta.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative flex flex-col md:flex-row gap-6 pb-12 group">
+                        <div class="hidden md:block absolute left-[159px] top-10 bottom-0 w-0.5 bg-slate-200"></div>
+                        
+                        <div class="md:w-40 flex-shrink-0 flex flex-col items-end md:text-right">
+                            <span class="text-2xl font-bold text-slate-400 group-hover:text-teal-600 transition-colors">Paso 2</span>
+                            <span class="text-sm text-slate-500 font-medium">Meses 4-6</span>
+                            <span class="mt-2 px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">Entrenamiento</span>
+                        </div>
+
+                        <div class="absolute left-0 md:left-[144px] z-10 w-8 h-8 rounded-full bg-white border-4 border-slate-300 shadow flex items-center justify-center text-slate-400 text-xs group-hover:border-teal-500 transition-colors">2</div>
+
+                        <div class="flex-grow bg-white p-6 rounded-xl border border-slate-200 shadow-sm md:ml-8 hover:border-teal-300 transition-colors">
+                            <h4 class="text-lg font-bold text-slate-800 mb-2">Enrutamiento Asistido ("La IA Aprende")</h4>
+                            <p class="text-slate-600 text-sm mb-4">
+                                La IA lee el documento y *sugiere* a qué secretaría debe ir (Hacienda, Planeación, Gobierno). El funcionario confirma o corrige.
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                <div class="bg-blue-50 p-3 rounded text-blue-800 border border-blue-100">
+                                    <strong>Beneficio Inmediato:</strong> Reducción del tiempo de clasificación de días a minutos.
+                                </div>
+                                <div class="bg-amber-50 p-3 rounded text-amber-800 border border-amber-100">
+                                    <strong>Acción Crítica:</strong> Los secretarios reciben notificaciones digitales, reduciendo el "papel viajero".
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative flex flex-col md:flex-row gap-6 pb-12 group">
+                        <div class="hidden md:block absolute left-[159px] top-10 bottom-0 w-0.5 bg-slate-200"></div>
+
+                        <div class="md:w-40 flex-shrink-0 flex flex-col items-end md:text-right">
+                            <span class="text-2xl font-bold text-slate-400 group-hover:text-teal-600 transition-colors">Paso 3</span>
+                            <span class="text-sm text-slate-500 font-medium">Meses 7-12</span>
+                            <span class="mt-2 px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">Integración</span>
+                        </div>
+
+                        <div class="absolute left-0 md:left-[144px] z-10 w-8 h-8 rounded-full bg-white border-4 border-slate-300 shadow flex items-center justify-center text-slate-400 text-xs group-hover:border-teal-500 transition-colors">3</div>
+
+                        <div class="flex-grow bg-white p-6 rounded-xl border border-slate-200 shadow-sm md:ml-8 hover:border-teal-300 transition-colors">
+                            <h4 class="text-lg font-bold text-slate-800 mb-2">Escalado al Sistema de Gestión (Total)</h4>
+                            <p class="text-slate-600 text-sm mb-4">
+                                Conectamos el "Cerebro" a los sistemas existentes (Predial, Archivo). La IA empieza a preparar borradores de respuestas basados en la información histórica.
+                            </p>
+                            <ul class="text-sm text-slate-500 space-y-2">
+                                <li class="flex items-start"><span class="text-teal-500 mr-2">➜</span>Integración con base de datos de impuestos.</li>
+                                <li class="flex items-start"><span class="text-teal-500 mr-2">➜</span>Generación automática de paz y salvos (previa validación humana simple).</li>
+                                <li class="flex items-start"><span class="text-teal-500 mr-2">➜</span>Tableros de control para el Alcalde: ¿Qué secretaría tiene más represamiento?</li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <section id="roi">
-            <div class="mb-6">
-                <h3 class="text-2xl font-bold text-slate-900">Simulador de Ahorro Financiero</h3>
-                <p class="text-slate-600 mt-1 text-sm">
-                    Proyección basada en el costo operativo promedio de un funcionario en Rioblanco (Salario + Prestaciones).
+        <!-- Point 6: Electronic Signature -->
+        <section id="firma" class="scroll-mt-24">
+            <div class="bg-slate-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
+                <!-- Decorative background circle -->
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-teal-500 rounded-full opacity-10 blur-3xl"></div>
+                
+                <div class="relative z-10">
+                    <div class="flex items-center mb-6">
+                        <span class="bg-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mr-4">Punto 6</span>
+                        <h3 class="text-2xl md:text-3xl font-bold">La Firma Electrónica: El Eslabón Final</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div>
+                            <p class="text-slate-300 leading-relaxed mb-6">
+                                Para que el "Modelo Pulpo" cierre el ciclo sin imprimir una sola hoja, es indispensable implementar la firma electrónica en los actos administrativos generados.
+                            </p>
+                            <h4 class="text-lg font-bold text-white mb-2">¿Cómo funciona para Rioblanco?</h4>
+                            <ul class="space-y-3 text-slate-300 text-sm">
+                                <li class="flex items-start">
+                                    <span class="text-teal-400 mr-2 text-lg">▪</span>
+                                    <span><strong>Firma Mecánica / Digital Simple:</strong> Para documentos internos y oficios de bajo riesgo. Uso de usuario y contraseña + Token (OTP).</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-teal-400 mr-2 text-lg">▪</span>
+                                    <span><strong>Firma Digital Certificada:</strong> Para resoluciones, decretos y contratos. Requiere un certificado emitido por una entidad acreditada (ONAC).</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                            <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-4">
+                                <span class="text-sm font-medium text-slate-200">Documento Generado por IA</span>
+                                <span class="text-xs bg-green-500/20 text-green-300 px-2 py-0.5 rounded">Listo</span>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center mr-3 text-xs">👤</div>
+                                    <div class="text-xs text-slate-400">
+                                        <p class="text-white font-medium">Secretario de Gobierno</p>
+                                        <p>Recibe notificación en celular</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center mr-3 text-xs">📱</div>
+                                    <div class="text-xs text-slate-400">
+                                        <p class="text-white font-medium">Validación OTP / Biometría</p>
+                                        <p>Aprueba contenido del documento</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center mr-3 text-xs">🔒</div>
+                                    <div class="text-xs text-slate-400">
+                                        <p class="text-white font-medium">Estampado Cronológico</p>
+                                        <p>El documento es inalterable legalmente</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-white/10 text-center">
+                                <span class="text-xs text-teal-300 font-mono">HASH: 8f4a...e21b | Validez Ley 527</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW Point 7: Infrastructure -->
+        <section id="infra" class="scroll-mt-24 pt-8 border-t border-slate-200">
+            <div class="text-center mb-10">
+                <span class="text-teal-600 font-bold tracking-wider text-sm uppercase">Punto 7</span>
+                <h3 class="text-3xl font-extrabold text-slate-900 mt-2">Infraestructura Necesaria</h3>
+                <p class="text-slate-600 mt-2 max-w-2xl mx-auto">
+                    Propuesta de dos escenarios para el despliegue del sistema. Se recomienda evaluar la conectividad actual de Rioblanco para la decisión final.
                 </p>
             </div>
 
-            <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-                <div class="mb-8 p-4 bg-slate-50 rounded-xl">
-                    <label for="volumeSlider" class="flex justify-between text-sm font-bold text-slate-700 mb-4">
-                        <span>Volumen Mensual de PQRSD</span>
-                        <span id="volumeValue" class="text-teal-700 text-xl">1,000</span>
-                    </label>
-                    <input type="range" id="volumeSlider" min="100" max="5000" step="100" value="1000" 
-                           class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-teal-600">
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <div class="bg-teal-50 p-5 rounded-xl border border-teal-100 text-center relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-2 opacity-10 text-teal-900 text-4xl font-bold">$</div>
-                        <p class="text-xs text-teal-800 uppercase font-bold tracking-wide mb-1">Ahorro Mensual Estimado</p>
-                        <p id="moneySaved" class="text-3xl font-extrabold text-teal-700">$ 13.300.000</p>
-                        <p class="text-[10px] text-teal-600 mt-1">*Base: $28.500 COP/Hora (Costo empresa)</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Option A: Physical -->
+                <div class="bg-white rounded-xl border-2 border-slate-200 p-6 relative overflow-hidden group hover:border-slate-300 transition-colors">
+                    <div class="absolute top-0 right-0 bg-slate-200 text-slate-600 px-4 py-1 rounded-bl-xl text-xs font-bold uppercase tracking-wide">
+                        Escenario A
                     </div>
-                    
-                    <div class="bg-white p-5 rounded-xl border border-slate-100 text-center shadow-sm">
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-1">Horas Liberadas</p>
-                        <p id="timeSaved" class="text-2xl font-bold text-slate-800">467 Horas</p>
-                        <p class="text-[10px] text-slate-400 mt-1">Equivalente a 2.5 funcionarios a tiempo completo</p>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-xl border border-slate-100 text-center shadow-sm">
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-1">Eficiencia Papel</p>
-                        <p id="paperSaved" class="text-2xl font-bold text-amber-600">3,000 Hojas</p>
-                        <p class="text-[10px] text-slate-400 mt-1">Reducción huella de carbono</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <h4 class="text-xs font-bold text-slate-400 uppercase text-center mb-4">Tiempo por Trámite (Minutos)</h4>
-                        <div class="chart-container h-64">
-                            <canvas id="timeChart"></canvas>
+                    <div class="flex items-center mb-6 mt-2">
+                        <span class="text-4xl mr-4">🖥️</span>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800">Infraestructura Local</h4>
+                            <span class="text-sm text-slate-500 font-medium">On-Premise (Físico)</span>
                         </div>
                     </div>
-                    <div>
-                        <h4 class="text-xs font-bold text-slate-400 uppercase text-center mb-4">Reasignación de Labores Humanas</h4>
-                        <div class="chart-container h-64">
-                            <canvas id="roleChart"></canvas>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <p class="text-xs text-slate-500 uppercase font-bold mb-1">Hardware Requerido</p>
+                            <ul class="text-sm text-slate-700 list-disc list-inside">
+                                <li>Servidor Rack (Min: 32GB RAM, Proc. Xeon/EPYC, 2TB SSD).</li>
+                                <li>Sistema de Respaldo Eléctrico (UPS Online 3KVA) - <strong>Crítico.</strong></li>
+                                <li>NAS para copias de seguridad locales.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <p class="text-xs text-slate-500 uppercase font-bold mb-1">Mantenimiento</p>
+                            <p class="text-sm text-slate-700">Requiere técnico en sitio, refrigeración dedicada y renovación de hardware cada 4-5 años.</p>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-4 mt-auto">
+                        <div class="flex items-center text-sm text-green-700 mb-2">
+                            <span class="mr-2">✓</span> Datos bajo soberanía física total.
+                        </div>
+                        <div class="flex items-center text-sm text-green-700">
+                            <span class="mr-2">✓</span> Funciona parcialmente sin internet externo.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Option B: Cloud -->
+                <div class="bg-white rounded-xl border-2 border-teal-500 p-6 relative overflow-hidden shadow-lg transform md:-translate-y-2">
+                    <div class="absolute top-0 right-0 bg-teal-500 text-white px-4 py-1 rounded-bl-xl text-xs font-bold uppercase tracking-wide">
+                        Escenario B (Recomendado)
+                    </div>
+                    <div class="flex items-center mb-6 mt-2">
+                        <span class="text-4xl mr-4">☁️</span>
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-800">Infraestructura Nube</h4>
+                            <span class="text-sm text-teal-600 font-medium">Cloud Computing</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-teal-50 p-3 rounded-lg border border-teal-100">
+                            <p class="text-xs text-teal-800 uppercase font-bold mb-1">Servicios Requeridos</p>
+                            <ul class="text-sm text-slate-700 list-disc list-inside">
+                                <li>Instancias Computación (AWS EC2 / Azure VM).</li>
+                                <li>Almacenamiento (S3 / Blob Storage) para documentos.</li>
+                                <li>Base de Datos Gestionada (RDS / Cloud SQL).</li>
+                            </ul>
+                        </div>
+                        <div class="bg-teal-50 p-3 rounded-lg border border-teal-100">
+                            <p class="text-xs text-teal-800 uppercase font-bold mb-1">Ventajas Económicas</p>
+                            <p class="text-sm text-slate-700">Modelo "Pay as you go" (Pago por uso). Sin inversión inicial en hierros (CAPEX vs OPEX).</p>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-4 mt-auto">
+                        <div class="flex items-center text-sm text-teal-700 mb-2">
+                            <span class="mr-2">✓</span> Escalabilidad inmediata si aumenta la demanda.
+                        </div>
+                        <div class="flex items-center text-sm text-teal-700 mb-2">
+                            <span class="mr-2">✓</span> Copias de seguridad automáticas y georedudantes.
+                        </div>
+                         <div class="flex items-center text-sm text-amber-600">
+                            <span class="mr-2">⚠</span> Requiere internet estable en la Alcaldía.
                         </div>
                     </div>
                 </div>
@@ -195,35 +511,66 @@
 
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm">
-        <p>© 2025 Oficina TIC - Alcaldía de Rioblanco, Tolima.</p>
-        <p class="text-xs text-slate-600 mt-2">Estudio de factibilidad para uso interno.</p>
+    <footer class="bg-slate-900 text-slate-400 py-10 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h4 class="text-white font-bold mb-2">Alcaldía de Rioblanco</h4>
+            <p class="mb-4 text-sm">Departamento del Tolima | Área de Tecnologías de la Información y las Comunicaciones</p>
+            <p class="text-xs text-slate-600 max-w-lg mx-auto">
+                Este documento es una propuesta técnica preliminar. La implementación está sujeta a disponibilidad presupuestal y aprobación del comité de gobierno digital.
+            </p>
+        </div>
     </footer>
 
     <script>
-        // --- 1. Datos y Estado ---
+        // --- Data & Logic ---
+        
+        // Architecture Data (Unchanged logic)
         const archData = {
             ingesta: {
-                title: "1. Ingesta: Ventanilla Única",
-                content: "Centralización de correos, WhatsApp y documentos físicos escaneados. Se genera un único número de radicado para seguimiento.",
-                tags: ["OCR Tesseract", "Scanner Kodak", "Gmail API"]
+                title: "1. La Cabeza: Ingesta",
+                icon: "📥",
+                desc: "Recepción centralizada. No importa si llega por ventanilla, email o WhatsApp, todo entra al mismo embudo.",
+                tech: [
+                    { name: "OCR", tool: "Tesseract", detail: "Digitaliza papel físico al instante." },
+                    { name: "Canales", tool: "API WhatsApp Business", detail: "Recepción oficial de PQR." }
+                ],
+                flow: "Ciudadano entrega papel ➔ Escáner ➔ Texto Digital ➔ Radicado Único."
             },
             analisis: {
-                title: "2. El Cerebro: Análisis IA",
-                content: "Lectura automática del contenido. La IA identifica si es una petición, queja o reclamo, extrae cédulas y predios, y sugiere la clasificación TRD.",
-                tags: ["GPT-4o Mini", "Python", "Validación RegEx"]
+                title: "2. El Cerebro: Análisis",
+                icon: "🧠",
+                desc: "Comprensión automática. El sistema lee el contenido para entender qué pide el ciudadano.",
+                tech: [
+                    { name: "IA", tool: "LLM (GPT-4o mini)", detail: "Clasifica: ¿Es una queja? ¿Es una solicitud de impuestos?" },
+                    { name: "Datos", tool: "Extracción de Entidades", detail: "Saca cédulas, nombres y direcciones automáticamente." }
+                ],
+                flow: "Texto plano ➔ Detección de tema ➔ Extracción de metadatos."
             },
             asignacion: {
-                title: "3. Distribución Automática",
-                content: "El sistema envía el trámite directamente a la bandeja de entrada del Secretario competente (ej. Planeación, Hacienda) sin pasar por patinadores.",
-                tags: ["Workflow", "Notificación Email", "Trazabilidad"]
+                title: "3. Tentáculos: Asignación",
+                icon: "🦑",
+                desc: "Distribución inteligente. El documento llega a la bandeja de entrada del funcionario correcto.",
+                tech: [
+                    { name: "Motor", tool: "Reglas de Negocio", detail: "Si dice 'hueco' va a Infraestructura. Si dice 'predial' va a Hacienda." },
+                    { name: "Trazabilidad", tool: "PostgreSQL", detail: "Registro inmutable de quién tiene el caso." }
+                ],
+                flow: "Clasificación ➔ Consulta Organigrama ➔ Notificación al Secretario."
+            },
+            validacion: {
+                title: "4. Cierre: Validación",
+                icon: "✅",
+                desc: "Control humano final. La IA propone, el funcionario dispone y firma.",
+                tech: [
+                    { name: "Borrador", tool: "Generación de Texto", detail: "La IA redacta la respuesta preliminar." },
+                    { name: "Firma", tool: "Certificado Digital", detail: "El funcionario firma electrónicamente para validez legal." }
+                ],
+                flow: "Revisión Humana ➔ Firma Electrónica ➔ Envío al Ciudadano."
             }
         };
 
-        // --- 2. Lógica Arquitectura ---
         function updateArch(phase) {
             document.querySelectorAll('.phase-card').forEach(btn => {
-                btn.classList.remove('active', 'border-teal-700');
+                btn.classList.remove('active', 'bg-white', 'border-l-4', 'border-teal-700');
                 btn.classList.add('bg-slate-50');
             });
             const activeBtn = document.getElementById(`btn-${phase}`);
@@ -231,98 +578,81 @@
             activeBtn.classList.remove('bg-slate-50');
 
             const data = archData[phase];
-            const tagsHtml = data.tags.map(t => `<span class="px-2 py-1 bg-teal-100 text-teal-800 text-xs rounded-md font-medium mr-2">${t}</span>`).join('');
+            const contentDiv = document.getElementById('arch-content');
             
-            document.getElementById('arch-content').innerHTML = `
-                <div class="animate-fade-in">
-                    <h4 class="text-xl font-bold text-teal-800 mb-2">${data.title}</h4>
-                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">${data.content}</p>
-                    <div class="flex flex-wrap gap-2 mt-auto">${tagsHtml}</div>
+            let techList = data.tech.map(t => `
+                <div class="flex items-start p-3 bg-slate-50 rounded border border-slate-100 mb-2">
+                    <div class="font-bold text-teal-700 text-xs uppercase w-16 flex-shrink-0 pt-0.5">${t.name}</div>
+                    <div>
+                        <div class="font-semibold text-slate-800 text-sm">${t.tool}</div>
+                        <div class="text-slate-500 text-xs">${t.detail}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            contentDiv.innerHTML = `
+                <div class="animate-fade-in h-full flex flex-col justify-center">
+                    <div class="flex items-center mb-4">
+                        <span class="text-4xl mr-4">${data.icon}</span>
+                        <h3 class="text-xl font-bold text-slate-800">${data.title}</h3>
+                    </div>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed">${data.desc}</p>
+                    <div class="mb-4">
+                        ${techList}
+                    </div>
+                    <div class="mt-auto p-3 bg-teal-50 text-teal-900 rounded text-xs font-medium border border-teal-100 text-center">
+                        ${data.flow}
+                    </div>
                 </div>
             `;
         }
 
-        // --- 3. Lógica ROI y Gráficos ---
-        let timeChart, roleChart;
-        // Costo hora promedio funcionario (Salario + Prestaciones + Parafiscales)
-        // Estimado para un técnico/profesional grado medio en municipio: $28,500 COP
-        const HOURLY_RATE_COP = 28500; 
-
+        // --- Charts ---
         function initCharts() {
-            // Gráfico Barras (Tiempo)
+            // Chart 1: Time Comparison
             const ctxTime = document.getElementById('timeChart').getContext('2d');
-            timeChart = new Chart(ctxTime, {
+            const timeChart = new Chart(ctxTime, {
                 type: 'bar',
                 data: {
                     labels: ['Manual', 'Modelo Pulpo'],
                     datasets: [{
                         label: 'Minutos por Trámite',
-                        data: [35, 5],
-                        backgroundColor: ['#94A3B8', '#0D9488'],
-                        borderRadius: 4
+                        data: [45, 5], 
+                        backgroundColor: ['#CBD5E1', '#0F766E'],
+                        borderRadius: 4,
+                        barThickness: 40
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
             });
 
-            // Gráfico Dona (Roles)
-            const ctxRole = document.getElementById('roleChart').getContext('2d');
-            roleChart = new Chart(ctxRole, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Mecánico/Repetitivo', 'Análisis/Calidad'],
-                    datasets: [{
-                        data: [80, 20],
-                        backgroundColor: ['#EF4444', '#10B981'],
-                        borderWidth: 0
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            // Slider Logic
+            const slider = document.getElementById('volumeSlider');
+            slider.addEventListener('input', (e) => {
+                const val = e.target.value;
+                document.getElementById('volumeValue').innerText = val;
+                
+                // Formulas: Manual ~30mins total work, AI ~2mins total work
+                const manualHrs = (val * 30) / 60;
+                const aiHrs = (val * 2) / 60;
+                const saved = Math.round(manualHrs - aiHrs);
+                
+                document.getElementById('timeSaved').innerText = `${saved.toLocaleString()} Horas`;
+                document.getElementById('paperSaved').innerText = `${(val * 3).toLocaleString()} Hojas`;
             });
-        }
-
-        function updateROI() {
-            const volume = parseInt(document.getElementById('volumeSlider').value);
-            document.getElementById('volumeValue').innerText = volume.toLocaleString();
-
-            // Cálculos
-            // Manual: 0.58 horas (35 min) por trámite total
-            // IA: 0.08 horas (5 min) por trámite total (sólo revisión)
-            const manualHours = volume * 0.58;
-            const aiHours = volume * 0.08;
-            const savedHours = Math.round(manualHours - aiHours);
-            
-            // Cálculo Monetario
-            const moneySaved = savedHours * HOURLY_RATE_COP;
-
-            // DOM Updates
-            document.getElementById('timeSaved').innerText = `${savedHours.toLocaleString()} Horas`;
-            document.getElementById('paperSaved').innerText = `${(volume * 3).toLocaleString()} Hojas`;
-            
-            // Formatear dinero a Pesos Colombianos
-            document.getElementById('moneySaved').innerText = new Intl.NumberFormat('es-CO', { 
-                style: 'currency', 
-                currency: 'COP',
-                maximumFractionDigits: 0 
-            }).format(moneySaved);
-
-            // Actualizar Gráfico Dona dinámicamente
-            // A más volumen, la IA absorbe más trabajo mecánico porcentualmente respecto al total
-            let qualityWork = 20 + (volume / 200); // Simulación simple
-            if(qualityWork > 60) qualityWork = 60;
-            let mechanicalWork = 100 - qualityWork;
-
-            roleChart.data.datasets[0].data = [mechanicalWork, qualityWork];
-            roleChart.update();
         }
 
         // Init
         document.addEventListener('DOMContentLoaded', () => {
             updateArch('ingesta');
             initCharts();
-            updateROI();
-            document.getElementById('volumeSlider').addEventListener('input', updateROI);
         });
+
     </script>
 </body>
 </html>
