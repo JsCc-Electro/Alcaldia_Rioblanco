@@ -3,120 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eficiencia Real vs. La Burbuja de la IA</title>
+    <title>Eficiencia Pública: El Nuevo Modelo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --text-color: #e2e8f0;
-            --accent-color: #38bdf8;
+            --primary: #2563eb;
+            --secondary: #0f172a;
+            --accent: #06b6d4;
+            --text: #e2e8f0;
             --card-bg: #1e293b;
-            --secondary-text: #94a3b8;
+            --success: #22c55e;
         }
 
         body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--secondary);
+            color: var(--text);
             margin: 0;
-            padding: 0;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem;
         }
 
+        /* Hero Section */
         header {
-            margin-bottom: 4rem;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 2rem;
+            text-align: center;
+            padding: 4rem 0;
+            animation: fadeIn 1s ease-in;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, var(--accent-color), #818cf8);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--accent), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            font-size: 1.25rem;
-            color: var(--secondary-text);
-        }
-
-        section {
-            margin-bottom: 3rem;
-        }
-
-        h2 {
+        .tagline {
             font-size: 1.5rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
+            color: #94a3b8;
         }
 
-        h2::before {
-            content: '#';
-            margin-right: 10px;
-            color: #475569;
+        /* Interactive Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
         }
 
         .card {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent-color);
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            border-top: 4px solid var(--accent);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Calculator Section */
+        .calculator-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .result-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--success);
+            text-align: center;
             margin-top: 1rem;
         }
 
-        blockquote {
-            font-style: italic;
-            color: var(--secondary-text);
-            border-left: 2px solid #475569;
-            padding-left: 1rem;
-            margin: 1.5rem 0;
+        /* Animation Section */
+        .process-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4rem 0;
+            flex-wrap: wrap;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.5rem;
+        .step {
+            text-align: center;
+            padding: 1rem;
+            flex: 1;
             position: relative;
         }
 
-        li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--accent-color);
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
         }
 
-        footer {
+        .arrow {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        /* Myth vs Reality Toggle */
+        .toggle-container {
             text-align: center;
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid #334155;
-            color: var(--secondary-text);
-            font-size: 0.9rem;
+            margin: 3rem 0;
+            cursor: pointer;
         }
 
-        .highlight {
-            color: var(--accent-color);
-            font-weight: bold;
+        .flip-card {
+            background-color: transparent;
+            height: 200px;
+            perspective: 1000px;
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            box-sizing: border-box;
+            flex-direction: column;
+        }
+
+        .flip-card-front {
+            background-color: #334155;
+            color: white;
+            border: 2px solid #ef4444;
+        }
+
+        .flip-card-back {
+            background-color: #065f46;
+            color: white;
+            transform: rotateY(180deg);
+            border: 2px solid var(--success);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background: var(--accent);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
             h1 { font-size: 2rem; }
-            .container { padding: 1rem; }
+            .process-flow { flex-direction: column; }
+            .arrow { transform: rotate(90deg); margin: 10px 0; }
         }
     </style>
 </head>
@@ -124,50 +205,114 @@
 
     <div class="container">
         <header>
-            <h1>La Paradoja de la Automatización</h1>
-            <p class="subtitle">Por qué la eficiencia no significa sustituir humanos, sino liberar tiempo de calidad.</p>
+            <h1>Ingeniería & Eficiencia Pública</h1>
+            <p class="tagline">No se trata de sustituir personas, se trata de liberar tiempo de calidad.</p>
         </header>
 
-        <section>
-            <h2>1. La Burbuja Económica y Técnica</h2>
-            <p>La inteligencia artificial es una herramienta poderosa, pero la burbuja actual se debe a una expectativa irreal de las grandes empresas: sustituir el capital humano para operar 24/7.</p>
+        <div class="grid">
             <div class="card">
-                <p>Al final, <strong>saldrá más barato contratar personas</strong> que usar IA para determinadas tareas.</p>
+                <h3>📉 La Paradoja de la IA</h3>
+                <p>Las grandes empresas creen que sustituir humanos es barato. Se equivocan.</p>
+                <p>Entre costos de servidores, energía y mantenimiento, <strong>la "automatización total" es una burbuja</strong>. El humano sigue siendo más rentable para manejar excepciones y dar validez legal.</p>
             </div>
-            <p>Los costos ocultos de hardware (subida de precios en RAM y GPUs), el consumo energético y el mantenimiento técnico constante hacen que la "sustitución total" sea financieramente insostenible. Lo mío es una intervención mínima: usar la herramienta para la parte pesada, y dejar el criterio al experto.</p>
-        </section>
-
-        <section>
-            <h2>2. El Modelo: "Human-in-the-Loop"</h2>
-            <p>El objetivo no es eliminar al trabajador, sino cambiar su rol de "digitador" a "auditor".</p>
-            <ul>
-                <li>Es más eficiente generar un paquete de documentos en segundos y validarlos.</li>
-                <li>Es ineficiente poner a un humano a escribir y corregir desde cero.</li>
-                <li>La máquina hace la fuerza bruta; el humano pone la firma y la responsabilidad.</li>
-            </ul>
-            <blockquote>
-                "Yo solo trato de liberar tiempo de calidad para las personas, no sustituir. Siempre se va a necesitar el validador humano."
-            </blockquote>
-        </section>
-
-        <section>
-            <h2>3. Redefiniendo la Eficiencia</h2>
-            <p>Existe una idea equivocada de que trabajar significa estar "sentado en un escritorio sufriendo" todo el día. Eso no es trabajo, es presencia.</p>
-            <p>Si se automatizan las tareas tediosas y se evacúa el trabajo de la semana en dos días, el tiempo restante no es tiempo perdido, es ganancia para:</p>
-            <ul>
-                <li>Atender mejor al público con la mente despejada.</li>
-                <li>Prepararse y capacitarse.</li>
-                <li>Mejorar procesos internos.</li>
-            </ul>
             <div class="card">
-                <p>No se trata de la <span class="highlight">cantidad</span> de trabajo (horas-silla), sino de <span class="highlight">cómo</span> se hace.</p>
+                <h3>🤖 El Enfoque Correcto</h3>
+                <p>Usamos la máquina para la "fuerza bruta" (generar documentos, procesar datos) y al humano para el "juicio experto" (validar, firmar, atender).</p>
+            </div>
+        </div>
+
+        <section class="calculator-box">
+            <h2 style="text-align: center;">🧮 Calculadora de Impacto</h2>
+            <p style="text-align: center;">¿Cuánto tiempo pierdes en tareas manuales repetitivas?</p>
+            
+            <label>Horas dedicadas a "carpintería" (copiar, pegar, redactar) a la semana:</label>
+            <input type="range" id="hoursInput" min="1" max="40" value="10" oninput="calculateTime()">
+            <p>Horas actuales: <span id="hoursValue" style="color: var(--accent); font-weight: bold;">10</span> horas.</p>
+
+            <div class="result-display">
+                <p>Con Automatización Asistida liberarías:</p>
+                <span id="savedTime">9</span> horas a la semana
+                <p style="font-size: 1rem; color: #94a3b8;">Para atender al público, capacitarte o planear.</p>
             </div>
         </section>
 
-        <footer>
-            <p>© 2025 - Reflexiones de Ingeniería y Eficiencia Pública</p>
+        <h2 style="margin-top: 4rem; text-align: center;">El Modelo "Human-in-the-Loop"</h2>
+        <div class="process-flow">
+            <div class="step">
+                <span class="icon">📄</span>
+                <p>Datos Crudos</p>
+            </div>
+            <div class="arrow">➜</div>
+            <div class="step" style="color: var(--accent);">
+                <span class="icon">⚙️</span>
+                <p>Script/IA Genera Borrador</p>
+                <small>(Segundos)</small>
+            </div>
+            <div class="arrow">➜</div>
+            <div class="step" style="color: var(--success); font-weight: bold; border: 2px dashed var(--success); border-radius: 10px;">
+                <span class="icon">👨‍💻</span>
+                <p>Validador Humano</p>
+                <small>(Control de Calidad)</small>
+            </div>
+            <div class="arrow">➜</div>
+            <div class="step">
+                <span class="icon">✅</span>
+                <p>Documento Final</p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center;">Derribando Mitos de Oficina</h2>
+        <div class="grid">
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <h3>❌ El Mito</h3>
+                        <p>"Si no estás tecleando frente al PC, no estás trabajando."</p>
+                        <small>(Pasa el mouse/toca aquí)</small>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>✅ La Realidad</h3>
+                        <p>Eficiencia es terminar en 2 días lo de una semana. El escritorio vacío significa tareas cumplidas y mente lista para resolver problemas reales.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <h3>❌ El Miedo</h3>
+                        <p>"La IA me va a quitar el trabajo."</p>
+                        <small>(Pasa el mouse/toca aquí)</small>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>✅ La Oportunidad</h3>
+                        <p>La IA no te reemplaza. Te asciende de "digitador" a "auditor". Tu firma y criterio valen más que tu velocidad de tecleo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align: center; margin-top: 4rem; padding: 2rem; border-top: 1px solid #334155;">
+            <p>Desarrollado para demostrar que la eficiencia pública es posible.</p>
+            <button onclick="alert('¡Excelente! El primer paso es identificar qué proceso repetitivo te quita más tiempo.')">Quiero aplicar esto</button>
         </footer>
     </div>
 
+    <script>
+        function calculateTime() {
+            const hours = document.getElementById('hoursInput').value;
+            document.getElementById('hoursValue').innerText = hours;
+            
+            // Asumimos que la automatización reduce el tiempo en un 90%
+            // El humano solo gasta el 10% validando.
+            const newTime = hours * 0.1;
+            const saved = (hours - newTime).toFixed(1);
+            
+            document.getElementById('savedTime').innerText = saved;
+        }
+        
+        // Calcular al inicio
+        calculateTime();
+    </script>
 </body>
 </html>
