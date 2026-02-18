@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rioblanco PotencIA: Centro de Autonomía Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: "Café Especial & Tecnología" - Deep coffee browns, vibrant teals for tech, and clean whites for clarity. -->
+
+    <!-- Application Structure Plan:
+         1. Hero Section: Standard OCAD header.
+         2. Context: Kept the diagnosis but refined the data presentation.
+         3. DEEP DIVE PILLARS (Major Update):
+            - WORK: Added specific BPO roles and salary breakdown.
+            - AGRO: New "Value Chain" analysis. Stacked bar chart showing price composition.
+            - HEALTH: Added "Saved Costs" metric.
+            - EDUCATION: Curriculum breakdown.
+         4. Financial Model: Solar savings visualization.
+         5. Budget: Investment breakdown.
+    -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 350px;
+        }
+
+        /* Custom Scrollbar for Tabs */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tab-btn {
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .tab-btn.active {
+            background-color: #0f766e; /* Teal 700 */
+            color: white;
+            border-bottom-color: #0f766e;
+            box-shadow: 0 4px 6px -1px rgba(15, 118, 110, 0.3);
+        }
+        .tab-btn.inactive {
+            background-color: white;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+        .tab-btn.inactive:hover {
+            background-color: #f1f5f9;
+            color: #0f766e;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+        }
+        .metric-card:hover {
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow-sm border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-teal-700 text-white p-1.5 rounded-lg font-bold text-lg">RP</div>
+                    <span class="font-bold text-xl text-slate-800 tracking-tight">Rioblanco<span class="text-teal-600">PotencIA</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="#diagnostico" class="hover:text-teal-700 transition-colors">Diagnóstico</a>
+                    <a href="#pilares" class="hover:text-teal-700 transition-colors">Intervención Integral</a>
+                    <a href="#financiero" class="hover:text-teal-700 transition-colors">Sostenibilidad</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white py-16 lg:py-24 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#14b8a6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-block bg-teal-900/50 border border-teal-500/30 text-teal-300 px-3 py-1 rounded-full text-xs font-bold mb-4 tracking-wide uppercase">
+                    Proyecto Estratégico OCAD Paz
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+                    Infraestructura Productiva para el <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">Cierre de Brechas</span>
+                </h1>
+                <p class="text-lg text-slate-300 mb-8 leading-relaxed max-w-2xl">
+                    Centro de Autonomía Digital: Un modelo de intervención que integra BPO, Agrotech y Telemedicina para transformar la estructura económica del sur del Tolima.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#pilares" class="bg-teal-600 hover:bg-teal-500 text-white px-6 py-3 rounded-lg font-semibold shadow-lg shadow-teal-900/40 transition-all">
+                        Explorar Pilares
+                    </a>
+                    <div class="flex items-center gap-2 text-slate-300 px-4 py-3">
+                        <span class="text-2xl">📊</span>
+                        <div class="flex flex-col leading-none">
+                            <span class="text-xs font-bold uppercase text-slate-500">Inversión Total</span>
+                            <span class="font-bold text-white">$3.800 Millones COP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Context / Diagnosis -->
+    <section id="diagnostico" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid lg:grid-cols-12 gap-12">
+                <div class="lg:col-span-5 space-y-6">
+                    <h2 class="text-3xl font-bold text-slate-900">Diagnóstico Territorial</h2>
+                    <p class="text-slate-600">
+                        La problemática central no es la falta de equipos, sino la <strong>exclusión de los circuitos de productividad</strong>. La desconexión digital actúa como un multiplicador de pobreza en la subregión PDET.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="metric-card p-4 rounded-xl">
+                            <div class="text-red-600 font-bold text-3xl mb-1">70.9%</div>
+                            <div class="text-xs text-slate-500 uppercase font-semibold">Exclusión Productiva</div>
+                            <p class="text-xs text-slate-400 mt-2 leading-snug">Población >18 años fuera del mercado formal.</p>
+                        </div>
+                        <div class="metric-card p-4 rounded-xl">
+                            <div class="text-orange-500 font-bold text-3xl mb-1">5.0%</div>
+                            <div class="text-xs text-slate-500 uppercase font-semibold">Penetración Internet</div>
+                            <p class="text-xs text-slate-400 mt-2 leading-snug">Cobertura fija en zona rural sur.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 text-sm text-slate-600">
+                        <strong>Justificación OCAD:</strong> El proyecto ataca directamente el indicador de "Brecha Digital" y "Desempleo Juvenil" (22.5%), alineado con los Planes de Desarrollo con Enfoque Territorial (PDET).
+                    </div>
+                </div>
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase mb-4 tracking-wider">Comparativa de Indicadores Críticos</h3>
+                    <div class="chart-container">
+                        <canvas id="diagnosisChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEEP DIVE PILLARS -->
+    <section id="pilares" class="py-16 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Estrategia de Intervención Integral</h2>
+                <p class="text-slate-600">
+                    El Centro PotencIA no es un café internet; es una unidad productiva. Seleccione un pilar para ver el detalle técnico y el impacto proyectado.
+                </p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex overflow-x-auto no-scrollbar gap-2 mb-8 pb-2 justify-start md:justify-center">
+                <button onclick="switchTab('trabajo')" id="tab-trabajo" class="tab-btn active px-6 py-3 rounded-full font-bold text-sm">
+                    💻 Pilar 1: Trabajo (BPO)
+                </button>
+                <button onclick="switchTab('agro')" id="tab-agro" class="tab-btn inactive px-6 py-3 rounded-full font-bold text-sm">
+                    ☕ Pilar 2: AgroTech
+                </button>
+                <button onclick="switchTab('medicina')" id="tab-medicina" class="tab-btn inactive px-6 py-3 rounded-full font-bold text-sm">
+                    🏥 Pilar 3: Telemedicina
+                </button>
+                <button onclick="switchTab('educacion')" id="tab-educacion" class="tab-btn inactive px-6 py-3 rounded-full font-bold text-sm">
+                    🎓 Pilar 4: Educación
+                </button>
+            </div>
+
+            <!-- CONTENT AREAS -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden min-h-[600px]">
+
+                <!-- PILAR 1: TRABAJO -->
+                <div id="content-trabajo" class="p-8 animate-fade-in block">
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <div>
+                            <div class="inline-flex items-center gap-2 mb-4">
+                                <span class="bg-teal-100 text-teal-800 px-2 py-1 rounded text-xs font-bold uppercase">Meta: 50 Empleos Formales</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Hub de Servicios BPO (Outsourcing)</h3>
+                            <p class="text-slate-600 mb-6 text-justify">
+                                Implementación de 48 estaciones de trabajo para exportación de servicios. Rioblanco pasa de ser consumidor de contenido a productor de servicios digitales para empresas en Bogotá y el exterior.
+                            </p>
+                            
+                            <h4 class="font-bold text-slate-800 mb-3 border-b pb-2">Perfil Ocupacional Proyectado</h4>
+                            <ul class="space-y-3 mb-6">
+                                <li class="flex justify-between items-center p-2 hover:bg-slate-50 rounded">
+                                    <span class="text-sm text-slate-700">🧑‍💻 Soporte Técnico Nivel 1</span>
+                                    <span class="text-xs font-bold text-teal-600">$1.8M - $2.2M COP</span>
+                                </li>
+                                <li class="flex justify-between items-center p-2 hover:bg-slate-50 rounded">
+                                    <span class="text-sm text-slate-700">📞 Atención al Cliente (Bilingüe)</span>
+                                    <span class="text-xs font-bold text-teal-600">$2.1M - $2.8M COP</span>
+                                </li>
+                                <li class="flex justify-between items-center p-2 hover:bg-slate-50 rounded">
+                                    <span class="text-sm text-slate-700">📝 Digitadores de Datos (Data Entry)</span>
+                                    <span class="text-xs font-bold text-teal-600">$1.3M - $1.6M COP</span>
+                                </li>
+                            </ul>
+
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                                <h5 class="text-blue-900 font-bold text-sm mb-1">Impacto Económico Local</h5>
+                                <p class="text-blue-800 text-xs">
+                                    La inyección de 50 salarios mínimos legales vigentes mensuales genera un circulante anual de aprox. <strong>$900 Millones COP</strong> en el comercio de Rioblanco.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 flex flex-col justify-center">
+                            <h4 class="text-center font-bold text-slate-700 mb-2">Proyección de Ingresos Acumulados</h4>
+                            <p class="text-center text-xs text-slate-500 mb-4">Comparativa: Jornal Agrícola Informal vs. Empleo BPO Técnico</p>
+                            <div class="chart-container h-[300px]">
+                                <canvas id="bpoChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PILAR 2: AGRO -->
+                <div id="content-agro" class="hidden p-8">
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <div>
+                            <div class="inline-flex items-center gap-2 mb-4">
+                                <span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold uppercase">Meta: Trazabilidad Digital</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Agrotech: Captura de Valor</h3>
+                            <p class="text-slate-600 mb-6 text-justify">
+                                El problema del café en Tolima no es la calidad (85+ puntos), es la comercialización. El proyecto implementa una plataforma Blockchain para certificar origen y calidad, permitiendo la venta directa a tostadores europeos (Direct Trade).
+                            </p>
+                            
+                            <h4 class="font-bold text-slate-800 mb-3 border-b pb-2">Lógica de Valor Agregado</h4>
+                            <ul class="space-y-4">
+                                <li class="flex gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600 text-xs">1</div>
+                                    <div>
+                                        <strong class="text-sm block text-slate-800">Precio Base (Carga):</strong>
+                                        <span class="text-xs text-slate-500">Determinado por la bolsa de NY (Volátil).</span>
+                                    </div>
+                                </li>
+                                <li class="flex gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-amber-200 flex items-center justify-center font-bold text-amber-700 text-xs">2</div>
+                                    <div>
+                                        <strong class="text-sm block text-slate-800">Prima de Calidad (Cup Score):</strong>
+                                        <span class="text-xs text-slate-500">Bonificación por perfil de taza >84 puntos.</span>
+                                    </div>
+                                </li>
+                                <li class="flex gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-teal-200 flex items-center justify-center font-bold text-teal-700 text-xs">3</div>
+                                    <div>
+                                        <strong class="text-sm block text-teal-700">Prima Digital (Trazabilidad):</strong>
+                                        <span class="text-xs text-slate-500">Valor pagado por el cliente final al ver la historia del productor (QR/Blockchain).</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- IMPROVED AGRO CHART -->
+                        <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                            <h4 class="text-center font-bold text-slate-700 mb-1">Composición del Precio por Carga (125kg)</h4>
+                            <p class="text-center text-xs text-slate-500 mb-6">Modelo Tradicional vs. Modelo Rioblanco PotencIA</p>
+                            
+                            <div class="chart-container">
+                                <canvas id="agroStackChart"></canvas>
+                            </div>
+                            
+                            <div class="mt-4 grid grid-cols-2 gap-2 text-center">
+                                <div class="bg-white p-2 rounded shadow-sm">
+                                    <div class="text-xs text-slate-400">Ingreso Tradicional</div>
+                                    <div class="font-bold text-slate-700">$1.650.000</div>
+                                </div>
+                                <div class="bg-white p-2 rounded shadow-sm border border-teal-200">
+                                    <div class="text-xs text-teal-600 font-bold">Ingreso PotencIA</div>
+                                    <div class="font-bold text-teal-700">$2.350.000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PILAR 3: MEDICINA -->
+                <div id="content-medicina" class="hidden p-8">
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <div>
+                            <div class="inline-flex items-center gap-2 mb-4">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-bold uppercase">Meta: 5 Nodos Rurales</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Telemedicina y Resolutividad</h3>
+                            <p class="text-slate-600 mb-6 text-justify">
+                                Conexión de alta velocidad (Starlink/Fibra) en 5 puestos de salud veredales (Herrera, Puerto Saldaña, etc.) integrados con el Hospital María Inmaculada.
+                            </p>
+                            
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                                <h5 class="text-blue-900 font-bold text-sm">Problema Actual</h5>
+                                <p class="text-sm text-blue-800 mt-1">
+                                    Un paciente rural gasta promedio <strong>$80.000 - $120.000 COP</strong> y pierde un día de trabajo solo para transporte a una cita de lectura de exámenes o control básico.
+                                </p>
+                            </div>
+
+                            <h4 class="font-bold text-slate-800 mb-3">Servicios Habilitados</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-3 border rounded text-sm text-slate-600">🩻 Teledermatología</div>
+                                <div class="p-3 border rounded text-sm text-slate-600">🧠 Telepsicología</div>
+                                <div class="p-3 border rounded text-sm text-slate-600">🤰 Control Prenatal Remoto</div>
+                                <div class="p-3 border rounded text-sm text-slate-600">📂 Historia Clínica Nube</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center bg-slate-100 rounded-xl p-8">
+                             <!-- Simple Flow Diagram using HTML/Tailwind -->
+                             <div class="relative w-full max-w-md">
+                                <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-dashed bg-slate-300 transform -translate-x-1/2"></div>
+                                
+                                <div class="relative z-10 bg-white p-4 rounded-lg shadow-sm mb-8 border border-slate-200">
+                                    <div class="text-xs font-bold text-slate-400 uppercase">Nivel 1: Vereda</div>
+                                    <div class="font-bold text-slate-800">Nodo de Atención Digital</div>
+                                    <div class="text-xs text-slate-500">Enfermera Auxiliar + Equipo TIC</div>
+                                </div>
+
+                                <div class="relative z-10 flex justify-center mb-8">
+                                    <div class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full shadow-lg">Internet Satelital</div>
+                                </div>
+
+                                <div class="relative z-10 bg-white p-4 rounded-lg shadow-md border-l-4 border-teal-500">
+                                    <div class="text-xs font-bold text-slate-400 uppercase">Nivel 2: Casco Urbano</div>
+                                    <div class="font-bold text-teal-700">Hospital María Inmaculada</div>
+                                    <div class="text-xs text-slate-500">Médico Especialista (Remoto)</div>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PILAR 4: EDUCACION -->
+                <div id="content-educacion" class="hidden p-8">
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <div>
+                            <div class="inline-flex items-center gap-2 mb-4">
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-bold uppercase">Meta: 500 Certificaciones/Año</span>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Bootcamps de Habilidades TIC</h3>
+                            <p class="text-slate-600 mb-6">
+                                Modelo de formación intensiva "Talento Tech" (159 horas). No es informática básica; es formación para el trabajo.
+                            </p>
+
+                            <div class="space-y-4">
+                                <div class="relative pl-8 border-l-2 border-purple-200 pb-4">
+                                    <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-purple-500"></div>
+                                    <h4 class="font-bold text-slate-800">Fase 1: Alfabetización Digital</h4>
+                                    <p class="text-sm text-slate-500">Uso productivo de herramientas ofimáticas y nube.</p>
+                                </div>
+                                <div class="relative pl-8 border-l-2 border-purple-200 pb-4">
+                                    <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-purple-500"></div>
+                                    <h4 class="font-bold text-slate-800">Fase 2: Habilidades Específicas</h4>
+                                    <p class="text-sm text-slate-500">Programación (Python/JS), Análisis de Datos o Marketing Digital.</p>
+                                </div>
+                                <div class="relative pl-8 border-l-2 border-transparent">
+                                    <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-teal-500"></div>
+                                    <h4 class="font-bold text-teal-700">Fase 3: Empleabilidad</h4>
+                                    <p class="text-sm text-slate-500">Vinculación directa con el Hub de BPO (Pilar 1).</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-6 flex flex-col items-center justify-center">
+                            <div class="text-center mb-6">
+                                <span class="block text-4xl font-extrabold text-purple-600">1:37</span>
+                                <span class="text-sm text-slate-500">Ratio Computador/Estudiante Actual</span>
+                            </div>
+                            <div class="w-full bg-white rounded-lg shadow-sm p-4">
+                                <h5 class="text-xs font-bold text-slate-400 uppercase mb-2">Meta de Cobertura Educativa</h5>
+                                <div class="w-full bg-slate-100 rounded-full h-4 mb-2">
+                                    <div class="bg-purple-500 h-4 rounded-full" style="width: 15%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-slate-500">
+                                    <span>Actual (Baja)</span>
+                                    <span>Objetivo: 100% Media Técnica</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Financial Sustainability -->
+    <section id="financiero" class="py-16 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-slate-900 mb-8 text-center">Modelo de Sostenibilidad Financiera</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div class="text-3xl mb-4">☀️</div>
+                    <h3 class="font-bold text-lg mb-2">Ahorro Operativo (OPEX)</h3>
+                    <p class="text-sm text-slate-600">
+                        Sistema Solar Fotovoltaico elimina la factura de energía ($0 Costo Energía).
+                    </p>
+                    <div class="mt-4 text-xs font-mono bg-slate-200 p-2 rounded">Ahorro: ~$5M COP / mes</div>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div class="text-3xl mb-4">📡</div>
+                    <h3 class="font-bold text-lg mb-2">Venta de Servicios ISP</h3>
+                    <p class="text-sm text-slate-600">
+                        Tarifa social ($40.000) a 500 hogares iniciales en el casco urbano y alrededores.
+                    </p>
+                    <div class="mt-4 text-xs font-mono bg-slate-200 p-2 rounded">Ingresos: ~$20M COP / mes</div>
+                </div>
+                <div class="bg-teal-900 text-white p-6 rounded-xl shadow-lg">
+                    <div class="text-3xl mb-4">🔄</div>
+                    <h3 class="font-bold text-lg mb-2">Reinversión Circular</h3>
+                    <p class="text-sm text-teal-100">
+                        Los excedentes no son utilidad privada; se reinvierten en mantenimiento de equipos y pago de nómina técnica.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Budget -->
+    <section class="py-12 bg-slate-900 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h3 class="text-white font-bold text-lg mb-2">Desglose de Inversión (Total: $3.800 MM)</h3>
+            <div class="flex flex-wrap justify-center gap-4 mt-6">
+                <div class="bg-slate-800 px-4 py-2 rounded-full border border-slate-700">
+                    <span class="text-blue-400 font-bold">Infraestructura:</span> $1.200 MM
+                </div>
+                <div class="bg-slate-800 px-4 py-2 rounded-full border border-slate-700">
+                    <span class="text-teal-400 font-bold">Tecnología:</span> $1.400 MM
+                </div>
+                <div class="bg-slate-800 px-4 py-2 rounded-full border border-slate-700">
+                    <span class="text-yellow-400 font-bold">Energía Solar:</span> $650 MM
+                </div>
+                <div class="bg-slate-800 px-4 py-2 rounded-full border border-slate-700">
+                    <span class="text-purple-400 font-bold">Capacitación:</span> $350 MM
+                </div>
+            </div>
+            <p class="mt-8 text-xs text-slate-600">
+                &copy; 2025 Proyecto Rioblanco PotencIA - Formulación OCAD Paz.
+            </p>
+        </div>
+    </section>
+
+    <!-- Interactive Logic -->
+    <script>
+        // --- Tab Logic ---
+        function switchTab(pillar) {
+            // Content
+            ['trabajo', 'agro', 'medicina', 'educacion'].forEach(id => {
+                document.getElementById(`content-${id}`).classList.add('hidden');
+            });
+            document.getElementById(`content-${pillar}`).classList.remove('hidden');
+
+            // Buttons
+            ['trabajo', 'agro', 'medicina', 'educacion'].forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                if (id === pillar) {
+                    btn.classList.add('active');
+                    btn.classList.remove('inactive');
+                } else {
+                    btn.classList.add('inactive');
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDiagnosisChart();
+            initBPOChart();
+            initAgroStackChart();
+        });
+
+        // --- Chart 1: Diagnosis Comparison ---
+        function initDiagnosisChart() {
+            const ctx = document.getElementById('diagnosisChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Pobreza Multidim.', 'Desempleo Juvenil', 'Acceso Internet Rural'],
+                    datasets: [
+                        {
+                            label: 'Rioblanco / Sur Tolima',
+                            data: [70.9, 22.5, 5.0],
+                            backgroundColor: '#ef4444', // Red
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Promedio Nacional',
+                            data: [16.0, 10.8, 45.0], // Approx benchmarks
+                            backgroundColor: '#cbd5e1', // Gray
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        // --- Chart 2: BPO Salary Accumulation (Line/Area) ---
+        function initBPOChart() {
+            const ctx = document.getElementById('bpoChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Año 1', 'Año 2', 'Año 3', 'Año 4', 'Año 5'],
+                    datasets: [
+                        {
+                            label: 'Ingreso Acumulado BPO (Formal)',
+                            data: [26, 54, 85, 120, 160], // Millions COP (Illustrative growth with raises)
+                            borderColor: '#0f766e',
+                            backgroundColor: 'rgba(15, 118, 110, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Ingreso Jornal Informal',
+                            data: [14, 28, 42, 56, 70], // Flat growth
+                            borderColor: '#94a3b8',
+                            borderDash: [5, 5],
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: 'Millones de Pesos (Acumulado por Persona)' },
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // --- Chart 3: IMPROVED AGRO STACKED CHART (Value Chain) ---
+        function initAgroStackChart() {
+            const ctx = document.getElementById('agroStackChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Venta Tradicional', 'Rioblanco PotencIA'],
+                    datasets: [
+                        {
+                            label: 'Precio Base Mercado',
+                            data: [1650000, 1650000],
+                            backgroundColor: '#a8a29e', // Stone 400
+                        },
+                        {
+                            label: 'Prima de Calidad',
+                            data: [0, 400000],
+                            backgroundColor: '#d97706', // Amber 600
+                        },
+                        {
+                            label: 'Prima Digital (Trazabilidad)',
+                            data: [0, 300000],
+                            backgroundColor: '#0d9488', // Teal 600
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true },
+                        y: { 
+                            stacked: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value / 1000000 + 'M';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
