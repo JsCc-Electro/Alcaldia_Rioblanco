@@ -1,0 +1,49 @@
+# 🏛️ Guía Institucional: Cuidado de Equipos y Protocolo de Soporte
+## 🚩 Alcaldía de Rioblanco - Compromiso con la Eficiencia
+
+Esta guía establece las pautas para el manejo de las herramientas tecnológicas y el fortalecimiento de la cultura de respeto y paciencia con el equipo de soporte técnico.
+
+---
+
+## 💻 1. Cuidado de los Bienes Institucionales
+*Los equipos son herramientas al servicio de la comunidad de Rioblanco. Su buen estado garantiza nuestra productividad.*
+
+| Categoría | ✅ Práctica Recomendada | 🚫 Evitar |
+| :--- | :--- | :--- |
+| **Puesto de Trabajo** | Mantener el área limpia y despejada. | Consumir alimentos o bebidas sobre el teclado/equipo. |
+| **Energía** | Apagar el equipo correctamente al finalizar la jornada. | Desconectar cables tirando de ellos o usar multitomas sobrecargadas. |
+| **Transporte** | Usar maletines acolchados para laptops institucionales. | Llevar objetos pesados sobre el computador o dejarlo en el vehículo. |
+| **Software** | Usar solo programas autorizados por la oficina de sistemas. | Instalar software pirata o conectar USBs de procedencia dudosa. |
+
+---
+
+## 🧠 2. Gestión Emocional y Paciencia en Soporte Técnico
+*El soporte técnico es una colaboración entre humanos. Un trato amable acelera la solución.*
+
+### 🚦 Antes de reportar: ¡Haz una pausa!
+Cuando algo falla, es normal sentir frustración. Antes de llamar o escribir:
+1.  **Respira profundamente:** La tecnología puede fallar, pero tu tranquilidad es lo primero.
+2.  **Reinicia:** El 50% de los errores comunes se solucionan reiniciando el equipo.
+3.  **Verifica:** Asegúrate de que los cables estén bien conectados.
+
+### 📝 Cómo solicitar soporte con éxito (La Regla de la Claridad)
+En lugar de decir *"No funciona"*, ayuda al técnico con estos 3 datos:
+*   **¿Qué estabas haciendo?** (Ej: "Trataba de imprimir el informe de tesorería").
+*   **¿Qué error ves?** (Ej: "Aparece un código de error 404 en pantalla").
+*   **¿Es urgente?** (Diferenciar si no puedes trabajar o si es un ajuste estético).
+
+---
+
+## 🤝 Protocolo de Empatía (Río de Colaboración)
+
+```mermaid
+graph LR
+    A[Usuario con Incidencia] --> B{Mantener la Calma}
+    B --> C[Reportar con Respeto]
+    C --> D[El Técnico evalúa y prioriza]
+    D --> E[Trabajo en Conjunto]
+    E --> F[Solución y Agradecimiento]
+    
+    style B fill:#fdfd96,stroke:#333
+    style F fill:#96f9a0,stroke:#333
+    style C fill:#a2d2ff,stroke:#333
